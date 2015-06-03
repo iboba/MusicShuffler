@@ -61,7 +61,7 @@ compileOpts argv = do
             case validateOptions opts dirs of
                  Just(s) -> showUsage [s]
                  Nothing -> return (opts, dirs)
-    where header = "Usage: RadioCrazy [OPTION...] search_directories..."
+    where header = "Usage: mshflr [OPTION...] search_directories..."
           showUsage errs = die (concat errs ++ "\n" ++ usageInfo header options)
 
 size2int :: String -> Integer
