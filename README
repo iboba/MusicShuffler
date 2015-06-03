@@ -1,0 +1,23 @@
+# MusicShuffler
+This is console utility to copy audio files on a local file system in random order, e.g. from hard drive into USB flash drive. Mp3 files are copied as is but mp4 or flac is re-coded as mp3 if flac, lame and ffmpeg are present in the system. If these tools are absent then mp4 and flac files are skipped.
+
+Program usage:
+	mshflr [OPTION...] search_directories...
+	  -o Dir      --outDir=Dir       Output directory
+	  -s Limit    --sizeLimit=Limit  Total transfer size (in K, M or G)
+	  -b BitRate  --bitRate=BitRate  Mp3 encode bit rate, default 256
+
+For example, to copy music from ~/Music and ~/Video folders into flash drive mounted as CORSAIR you can use the following:
+	mshflr -o /run/media/user/CORSAIR -s 1.5G -b 192 ~/Music ~/Video
+The total space used in flash drive will be capped by approximately 1.5Gb. If any flac or mp4 files need to be recoded the 192 bit rate will be used.
+
+This program can serve as a Haskell example for:
+	* parsing command line arguments,
+	* regular expression usage,
+	* linear time shuffling in ST monad,
+	* storing data in immutable array,
+	* calling external executables,
+	* handling IO exceptions,
+	* random generator.
+
+The program was tested in Fedora 21 with GHC 7.6.3.
