@@ -2,7 +2,7 @@
 -- documentation, see http://haskell.org/cabal/users-guide/
 
 name:                MusicShuffler
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            Copy Mp3/Mp4/Flac files in random order.
 -- description:         
 license:             BSD3
@@ -27,6 +27,7 @@ executable             mshflr
                        regex-posix >= 0.95.2 && < 1.0,
                        disk-free-space >= 0.1.0.1 && < 0.2,
                        text >= 0.11.3.1 && < 0.12,
-                       process >= 1.1.0.2 && < 1.2
+                       process >= 1.1.0.2 && < 1.2,
+                       extra >= 1.1 && < 1.2
   -- hs-source-dirs:      
   default-language:    Haskell2010

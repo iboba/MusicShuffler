@@ -6,6 +6,8 @@ import Control.Monad.ST
 import Data.Array.IArray(Array, array, assocs)
 import Data.Array.MArray(newArray, getElems, readArray, writeArray)
 import Data.Array.ST(STUArray)
+import Data.List(intercalate)
+import Data.List.Extra(wordsBy)
 import Data.Maybe(fromMaybe, isJust, fromJust)
 import Data.STRef
 import Data.Text(pack, unpack, toLower)
@@ -135,6 +137,9 @@ die msg = do
     hPutStrLn stderr ("Error: " ++ msg)
     exitFailure
 
+escapeQuotes :: FilePath -> String
+escapeQuotes = esc '`'
+    where esc d = intercalate ('\\':[d]) . wordsBy (==d)
 
 cpFile  ::  (FilePath -> FilePath -> IO())  -- Copy/Convert function
     -> FilePath                             -- From
@@ -153,7 +158,7 @@ cpFlac :: Int               -- Bit rate
     -> IO(Maybe Integer)    -- Copied size
 cpFlac br = cpFile (convertFlac br)
     where convertFlac br from to = do
-            let cmd = "flac -cds \"" ++ from ++ "\" | lame -h --quiet -b " ++ show(br) ++ " - \"" ++ to ++ "\""
+            let cmd = "flac -cds \"" ++ escapeQuotes(from) ++ "\" | lame -h --quiet -b " ++ show(br) ++ " - \"" ++ to ++ "\""
             system cmd
             return ()
 
@@ -163,7 +168,7 @@ cpMp4 :: Int                -- Bit rate
     -> IO(Maybe Integer)    -- Copied size
 cpMp4 br = cpFile (convertMp4 br)
     where convertMp4 br from to = do
-            let cmd = "ffmpeg -loglevel quiet -i \"" ++ from ++ "\" -vn -ar 44100 -ac 2 -ab "
+            let cmd = "ffmpeg -loglevel quiet -i \"" ++ escapeQuotes(from) ++ "\" -vn -ar 44100 -ac 2 -ab "
                         ++ show(br) ++ "k -f mp3 \"" ++ to ++ "\""
             system cmd
             return ()
